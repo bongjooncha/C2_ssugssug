@@ -1,20 +1,23 @@
 # 구조
 app/
  ├── __init__.py
- ├── main.py                 # FastAPI 앱 인스턴스
- ├── database.py             # DB 연결, 모델 정의
- ├── config.py               # 환경 설정
- ├── utils.py                # 암호화 등 유틸리티 함수
- ├── routers/
+ ├── main.py                   # FastAPI 앱 인스턴스
+ ├── database.py               # DB 연결, 모델 정의
+ ├── config.py                 # 환경 설정
+ ├── utils.py                  # 암호화 등 유틸리티 함수
+ |
+ ├── routers/              
  │     ├── __init__.py
  │     ├── auth.py             # 인증 관련 엔드포인트
  │     ├── study_groups.py     # 스터디 그룹 관련 엔드포인트
  │     └── study_notes.py      # 스터디 메모 관련 엔드포인트
- ├── models/
- │   ├── __init__.py
- │   ├── user.py             # 사용자 모델
- │   ├── study_group.py      # 스터디 그룹 모델
- │   └── study_note.py       # 스터디 메모 모델
+ |
+ ├── models/               
+ │     ├── __init__.py
+ │     ├── user.py             # 사용자 모델
+ │     ├── study_group.py      # 스터디 그룹 모델
+ │     └── study_note.py       # 스터디 메모 모델
+ |
  └── schemas/
        ├── __init__.py
        ├── user.py             # 사용자 스키마
