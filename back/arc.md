@@ -29,13 +29,12 @@ app/
 - POST /auth/signup - 회원가입
 - POST /auth/login - 로그인
 - DELETE /auth/users/{nickname} - 회원 탈퇴
-- PUT /auth/users/{nickname}/password - 비밀번호 변경
 
 2. 스터디 그룹 API:
 - POST /groups - 스터디 그룹 생성
 - GET /groups - 스터디 그룹 목록 조회
-- GET /groups/{name} - 특정 스터디 그룹 조회
-- PUT /groups/{name} - 스터디 그룹 정보 업데이트
+- GET /groups/{nickname} - 특정 스터디 그룹 조회
+
 
 3. 스터디 메모 API:
 - POST /notes - 메모 생성
