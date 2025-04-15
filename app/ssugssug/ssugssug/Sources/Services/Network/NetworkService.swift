@@ -21,7 +21,6 @@ final class NetworkService {
     private let baseURL = "http://localhost:8000"
     
     //TODO: url configuration
-    
     func request<T: Decodable, U: Encodable>(
         endpoint: String,
         method: HTTPMethod,

@@ -59,3 +59,7 @@ struct HomeView: View {
         }
     }
 } 
+
+#Preview {
+    HomeView(viewModel: AuthViewModel())
+}

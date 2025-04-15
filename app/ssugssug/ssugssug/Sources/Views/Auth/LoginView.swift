@@ -8,30 +8,24 @@ struct LoginView: View {
     
     var body: some View {
         VStack(spacing: 30) {
-            // 로고 영역
-            VStack(spacing: 15) {
-                Text("쑥쑥")
-                    .font(.system(size: 36, weight: .bold))
-                Text("🌱")
-                    .font(.system(size: 40))
-            }
-            .padding(.top, 50)
+            Image("Title")
+                .resizable()
+                .scaledToFit()
+                .frame(width: UIScreen.main.bounds.width * 0.5)
+                .padding(.top, 100)
+                .padding(.bottom, 40)
             
             // 로그인 폼
             VStack(spacing: 20) {
-                Text("Login")
+                Text("로그인")
                     .font(.headline)
                     .frame(maxWidth: .infinity, alignment: .center)
                 
-                TextFieldWithIcon(
-                    icon: "person",
-                    placeholder: "nickname",
-                    text: $nickname
-                )
-                
+
+                NickNameField(nickname: $nickname)
                 TextFieldWithIcon(
                     icon: "lock",
-                    placeholder: "pwd",
+                    placeholder: "비밀번호",
                     text: $password,
                     isSecure: true
                 )
@@ -44,7 +38,7 @@ struct LoginView: View {
                 }
                 
                 PrimaryButton(
-                    title: "Continue",
+                    title: "로그인",
                     isDisabled: viewModel.isLoading
                 ) {
                     viewModel.login(nickname: nickname, password: password)
@@ -76,5 +70,6 @@ struct LoginView: View {
         .animation(.easeInOut, value: viewModel.isLoading)
     }
 }
-
-
+#Preview {
+    LoginView(viewModel: AuthViewModel())
+}

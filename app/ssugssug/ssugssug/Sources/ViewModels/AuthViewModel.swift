@@ -62,8 +62,8 @@ final class AuthViewModel: ObservableObject {
                     }
                 }
             } receiveValue: { [weak self] (user: User) in
-                self.currentUser = user
-                self.isAuthenticated = true
+                self?.currentUser = user
+                self?.isAuthenticated = true
             }
             .store(in: &cancellables)
     }

@@ -11,48 +11,43 @@ struct RegisterView: View {
         NavigationView {
             VStack(spacing: 25) {
                 // 로고 영역
-                VStack(spacing: 15) {
-                    Text("쑥쑥")
-                        .font(.system(size: 36, weight: .bold))
-                    Text("🌱")
-                        .font(.system(size: 40))
-                }
-                .padding(.top, 20)
+                Image("Title")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: UIScreen.main.bounds.width * 0.5) 
+                    .padding(.top, 100)
+                    .padding(.bottom, 50)
                 
                 // 회원가입 폼
                 VStack(spacing: 20) {
-                    Text("Create an account")
+                    Text("계정 생성하쓀~?")
                         .font(.headline)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 10)
+                
                     
                     VStack(spacing: 5) {
-                        Text("Enter your id")
-                            .font(.subheadline)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.leading, 25)
-                        
-                        TextFieldWithIcon(
-                            icon: "person",
-                            placeholder: "nickname",
-                            text: $nickname
-                        )
+                        NickNameField(nickname: $nickname)
                     }
                     
+                    Text("비밀번호는 필쑤~")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 10)
+                
+
                     VStack(spacing: 5) {
-                        Text("Enter pwd")
-                            .font(.subheadline)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.leading, 25)
-                        
+
                         TextFieldWithIcon(
                             icon: "lock",
-                            placeholder: "pwd",
+                            placeholder: "!!!비밀번호!!!",
                             text: $password,
                             isSecure: true
                         )
                         
                         TextFieldWithIcon(
                             icon: "lock.shield",
-                            placeholder: "check your pwd",
+                            placeholder: "비밀번호 확인~",
                             text: $confirmPassword,
                             isSecure: true
                         )
@@ -97,5 +92,5 @@ struct RegisterView: View {
 } 
 
 #Preview {
-    
+    RegisterView(viewModel: AuthViewModel())
 }
