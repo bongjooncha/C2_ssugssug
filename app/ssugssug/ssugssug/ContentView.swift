@@ -12,7 +12,7 @@ struct ContentView: View {
     
     var body: some View {
         if authViewModel.isAuthenticated {
-            HomeView(viewModel: authViewModel)
+            MainView(viewModel: authViewModel)
         } else {
             LoginView(viewModel: authViewModel)
         }
