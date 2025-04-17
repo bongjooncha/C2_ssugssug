@@ -33,7 +33,6 @@ def signup(user: UserCreate, db: Session = Depends(get_db)):
 """로그인"""
 @router.post("/login", response_model=UserResponse)
 def login(user_data: UserLogin, db: Session = Depends(get_db)):
-    print(user_data)
     # 사용자 찾기
     user = db.query(User).filter(User.nickname == user_data.nickname).first()
     if not user:
