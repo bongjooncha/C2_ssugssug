@@ -10,6 +10,15 @@ struct Study: Codable, Identifiable {
     var id: String { study_name }
     
     var typeString: String {
-        return study_type == 0 ? "개인" : "그룹"
+        switch study_type {
+        case 0:
+            return "스터디(파)"
+        case 1:
+            return "문화생활(죽순)"
+        case 2:
+            return "경험공유(수박)"
+        default:
+            return "기타"
+        }
     }
 } 

@@ -1,79 +1,32 @@
 import SwiftUI
 
 struct SettingView: View {
+    @ObservedObject var authViewModel: AuthViewModel
     @StateObject private var viewModel = StudyViewModel()
     @State private var showDeleteConfirmation = false
     @State private var isLoading = false
     @State private var showAlert = false
     @State private var alertMessage = ""
     
-    // 현재는 하드코딩된 사용자 이름이지만, 실제로는 로그인된 사용자 정보를 사용해야 합니다
-    private let username = "Test2"
+    private var username: String? {
+        return authViewModel.currentUser?.nickname
+    }
     
     var body: some View {
         NavigationView {
             ZStack {
+                Spacer()
                 VStack(alignment: .leading) {
+                    SettingLogoutView(viewModel: authViewModel)
                     // 사용자 프로필 정보
-                    HStack {
-                        Circle()
-                            .fill(Color.gray.opacity(0.3))
-                            .frame(width: 60, height: 60)
-                            .overlay(
-                                Text(String(username.first ?? Character("")))
-                                    .font(.title)
-                                    .fontWeight(.bold)
-                            )
-                        
-                        VStack(alignment: .leading) {
-                            Text(username)
-                                .font(.title2)
-                                .fontWeight(.bold)
-                            
-                            Text("내 스터디")
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
-                        }
-                        .padding(.leading, 8)
-                        
-                        Spacer()
-                    }
-                    .padding(.bottom, 20)
+                    ProfileView(username: username ?? "")
+                        .padding(.bottom, 40)
+                        .padding(.top, 20)
+
                     
                     // 스터디 목록
-                    if viewModel.studies.isEmpty && !viewModel.isLoading {
-                        Text("참여 중인 스터디가 없습니다")
-                            .font(.body)
-                            .foregroundColor(.gray)
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .padding(.top, 40)
-                    } else {
-                        List {
-                            ForEach(viewModel.studies) { study in
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text(study.study_name)
-                                        .font(.headline)
-                                    
-                                    HStack {
-                                        Text(study.typeString)
-                                            .font(.subheadline)
-                                            .padding(.horizontal, 8)
-                                            .padding(.vertical, 2)
-                                            .background(study.study_type == 0 ? Color.blue.opacity(0.2) : Color.green.opacity(0.2))
-                                            .cornerRadius(4)
-                                        
-                                        Spacer()
-                                        
-                                        Text("진행: \(study.meating_goal)/\(study.meating_num)")
-                                            .font(.caption)
-                                            .foregroundColor(.gray)
-                                    }
-                                }
-                                .padding(.vertical, 4)
-                            }
-                        }
-                        .listStyle(PlainListStyle())
-                    }
+                    StudyListView(viewModel: viewModel)
+                        .padding(.leading, 8)
                     
                     Spacer()
                 }
@@ -88,7 +41,7 @@ struct SettingView: View {
                         .background(Color.black.opacity(0.1))
                 }
             }
-            .navigationTitle("설정")
+            .navigationTitle("내 정보")
             .navigationBarItems(trailing:
                 Button(action: {
                     showDeleteConfirmation = true
@@ -98,7 +51,7 @@ struct SettingView: View {
                 }
             )
             .onAppear {
-                viewModel.fetchUserStudies(username: username)
+                viewModel.fetchUserStudies(username: username ?? "")
             }
             .alert(isPresented: $showAlert) {
                 Alert(
@@ -141,5 +94,5 @@ struct SettingView: View {
 }
 
 #Preview {
-    SettingView()
+    SettingView(authViewModel: AuthViewModel())
 }

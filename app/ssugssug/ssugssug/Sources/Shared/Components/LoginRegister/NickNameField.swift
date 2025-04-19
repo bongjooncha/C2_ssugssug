@@ -12,9 +12,3 @@ struct NickNameField: View {
         )
     }
 }
-
-// 선택사항: 미리보기 추가
-#Preview {
-    @State var previewNickname = ""
-    return NickNameField(nickname: $previewNickname)
-}

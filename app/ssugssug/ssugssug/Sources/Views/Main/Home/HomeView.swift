@@ -1,15 +1,18 @@
 import SwiftUI
 
 struct HomeView: View {
-    @ObservedObject var viewModel: AuthViewModel
+    @ObservedObject var AuthViewModel: AuthViewModel
+    @StateObject private var studyViewModel = StudyViewModel()
+
     
     var body: some View {
         NavigationView {
             VStack(spacing: 30) {
-                UserHeaderView(nickname: viewModel.currentUser?.nickname)
-                HomeMainView(viewModel: viewModel)
-                
+                // 환영 메시지와 프로필 아이콘
+                UserHeaderView(nickname: AuthViewModel.currentUser?.nickname)
+
                 Spacer()
+                HomeMainView(studyViewModel: studyViewModel)
             }
             .padding()
             .navigationBarTitleDisplayMode(.inline)
@@ -18,5 +21,5 @@ struct HomeView: View {
 } 
 
 #Preview {
-    HomeView(viewModel: AuthViewModel())
+    HomeView(AuthViewModel: AuthViewModel())
 }

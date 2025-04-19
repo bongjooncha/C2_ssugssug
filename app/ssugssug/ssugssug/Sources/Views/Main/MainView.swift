@@ -27,13 +27,13 @@ struct TabView: View {
         VStack {
             switch selectedTab {
             case 0:
-                HomeView(viewModel: viewModel)
+                HomeView(AuthViewModel: viewModel)
             case 1:
                 GroupView()
             case 2:
-                SettingView()
+                SettingView(authViewModel: viewModel)
             default:
-                HomeView(viewModel: viewModel)
+                HomeView(AuthViewModel: viewModel)
             }
             
             Spacer(minLength: 0)
