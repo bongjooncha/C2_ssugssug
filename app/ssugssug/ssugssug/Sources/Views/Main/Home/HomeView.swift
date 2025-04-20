@@ -3,6 +3,7 @@ import SwiftUI
 struct HomeView: View {
     @ObservedObject var AuthViewModel: AuthViewModel
     @StateObject private var studyViewModel = StudyViewModel()
+    @State private var showCreateStudy = false
 
     
     var body: some View {
@@ -16,6 +17,29 @@ struct HomeView: View {
             }
             .padding()
             .navigationBarTitleDisplayMode(.inline)
+            .navigationBarItems(trailing: 
+                Button(action: {
+                    showCreateStudy = true
+                }) {
+                    HStack {
+                        Image(systemName: "plus")
+                        Text("스터디 추가하기")
+                    }
+                    .foregroundColor(.green)
+                }
+            )
+            .sheet(isPresented: $showCreateStudy) {
+                NavigationView {
+                    CreateStudyView()
+                        .navigationBarItems(leading: 
+                            Button(action: {
+                                showCreateStudy = false
+                            }) {
+                                Image(systemName: "chevron.left")
+                            }
+                        )
+                }
+            }
         }
     }
 } 
