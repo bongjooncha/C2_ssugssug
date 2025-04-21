@@ -7,5 +7,6 @@ class StudysInfo(Base):
     nickname = Column(String, primary_key=True, index=True)
     study_name = Column(String, primary_key=True, index=True)
     study_type = Column(Integer, nullable=False)
+    # study_time = Column(Integer, default=0)
     meating_num = Column(Integer, default=0)
     meating_goal = Column(Integer, nullable=False) 

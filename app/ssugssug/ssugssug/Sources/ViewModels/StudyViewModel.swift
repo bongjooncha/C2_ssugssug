@@ -6,14 +6,32 @@ class StudyViewModel: ObservableObject {
     @Published var studies: [Study] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
+    @Published var username: String = ""
     
     private var cancellables = Set<AnyCancellable>()
     
-    func fetchUserStudies(username: String) {
+    init() {}
+    
+    init(username: String) {
+        self.username = username
+        fetchUserStudies()
+    }
+    
+    func setUsername(_ username: String) {
+        self.username = username
+    }
+    
+    func fetchUserStudies() {
+        guard !username.isEmpty else {
+            errorMessage = "사용자 이름이 설정되지 않았습니다"
+            return
+        }
+        
         isLoading = true
         errorMessage = nil
+        let url = "http://10.141.51.36:8000"
         
-        let endpoint = "http://localhost:8000/groups/studies/user/\(username)"
+        let endpoint = url+"/groups/studies/user/\(username)"
         
         AF.request(endpoint, method: .get)
             .validate()
@@ -46,8 +64,18 @@ class StudyViewModel: ObservableObject {
             }
     }
     
+    func fetchUserStudies(username: String) {
+        self.username = username
+        fetchUserStudies()
+    }
+    
     func deleteAccount(completion: @escaping (Bool) -> Void) {
-        let endpoint = "http://localhost:8000/auth/delete-account" // 실제 API 엔드포인트로 변경해야 합니다
+        guard !username.isEmpty else {
+            completion(false)
+            return
+        }
+        
+        let endpoint = "http://localhost:8000/auth/delete-account"
         
         AF.request(endpoint, method: .delete)
             .validate()
@@ -62,5 +90,4 @@ class StudyViewModel: ObservableObject {
     }
 }
 
-// 응답 데이터가 없는 API 호출을 위한 빈 응답 타입
 struct EmptyResponse: Codable {} 

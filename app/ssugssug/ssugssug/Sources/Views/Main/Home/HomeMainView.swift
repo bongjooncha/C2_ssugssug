@@ -8,8 +8,13 @@ struct HomeMainView: View {
             StudyListView(viewModel: studyViewModel)
         }
         .padding()
+        .border(Color.green, width: 2)
         .navigationBarTitleDisplayMode(.inline)
+
         
     }
 }
 
+#Preview {
+    HomeMainView(studyViewModel: StudyViewModel())
+}

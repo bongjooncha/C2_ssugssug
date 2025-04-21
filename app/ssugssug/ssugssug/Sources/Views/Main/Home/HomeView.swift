@@ -11,7 +11,6 @@ struct HomeView: View {
             VStack(spacing: 30) {
                 // 환영 메시지와 프로필 아이콘
                 UserHeaderView(nickname: AuthViewModel.currentUser?.nickname)
-
                 Spacer()
                 HomeMainView(studyViewModel: studyViewModel)
             }
@@ -30,7 +29,7 @@ struct HomeView: View {
             )
             .sheet(isPresented: $showCreateStudy) {
                 NavigationView {
-                    CreateStudyView()
+                    CreateStudyView(user: AuthViewModel.currentUser)
                         .navigationBarItems(leading: 
                             Button(action: {
                                 showCreateStudy = false

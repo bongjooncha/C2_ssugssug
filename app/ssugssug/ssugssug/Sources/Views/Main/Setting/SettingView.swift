@@ -17,7 +17,6 @@ struct SettingView: View {
             ZStack {
                 Spacer()
                 VStack(alignment: .leading) {
-                    SettingLogoutView(viewModel: authViewModel)
                     // 사용자 프로필 정보
                     ProfileView(username: username ?? "")
                         .padding(.bottom, 40)
@@ -27,6 +26,10 @@ struct SettingView: View {
                     // 스터디 목록
                     StudyListView(viewModel: viewModel)
                         .padding(.leading, 8)
+                    
+                    // 로그아웃 버튼
+                    SettingLogoutView(viewModel: authViewModel)
+                        .padding(.top, 20)
                     
                     Spacer()
                 }
