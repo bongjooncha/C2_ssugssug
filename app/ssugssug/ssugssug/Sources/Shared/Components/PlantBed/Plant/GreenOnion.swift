@@ -2,8 +2,13 @@
 import SwiftUI
 
 struct GreenOnion: View {
-    var width: CGFloat = 40
-    var height: CGFloat = 200
+    var width: CGFloat
+    var height: CGFloat
+
+    init(_ width: CGFloat = 40, _ height: CGFloat = 200) {
+        self.width = width
+        self.height = height
+    }
     
     static let darkGreen = Color(red: 0/255, green: 150/255, blue: 0/255)
     
@@ -24,5 +29,5 @@ struct GreenOnion: View {
 }
 
 #Preview {
-    GreenOnion()
+    GreenOnion(50, 300)
 }

@@ -1,14 +1,43 @@
 import SwiftUI
 
 struct Ground: View {
-    var color: Color = .brown
-    var skew: CGFloat = 60 // 평행사변형의 기울기 각도
+    var color: Color
+    var skew: CGFloat
+    var plantType: Int?
+    var plantHeight: CGFloat
+    var plantWidth: CGFloat
+    
+    init(_ plantType: Int? = nil, _ skew: CGFloat = 60, _ color: Color = .brown, _ plantHeight: CGFloat = 50, _ plantWidth: CGFloat = 300) {
+        self.plantType = plantType
+        self.skew = skew
+        self.color = color
+        self.plantHeight = plantHeight
+        self.plantWidth = plantWidth
+    }
     
     var body: some View {
         GeometryReader { geometry in
-            Parallelogram(skew: skew)
-                .fill(color)
-                .frame(width: geometry.size.width, height: geometry.size.height)
+            ZStack(alignment: .bottom) {
+                Parallelogram(skew: skew)
+                    .fill(color)
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                
+                if let plantType = plantType {
+                    switch plantType {
+                    case 0:
+                        GreenOnion(plantWidth, plantHeight)
+                            .offset(y: -25)
+                    case 1:
+                        Calabash(plantHeight)
+                            .offset(y: -25)
+                    case 2:
+                        Bamboo(plantWidth, plantHeight)
+                            .offset(y: -25)
+                    default:
+                        EmptyView()
+                    }
+                }
+            }
         }
     }
 }
@@ -31,12 +60,8 @@ struct Parallelogram: Shape {
     }
 }
 
-struct Ground_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack(spacing: 20) {
-            Ground()
-                .frame(width: 300, height: 50)
-        }
-        .padding()
-    }
+
+#Preview {
+    Ground(1, 70, .brown, 100)
+        .frame(width: 300, height: 50)
 }

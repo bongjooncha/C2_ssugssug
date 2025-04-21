@@ -1,9 +1,14 @@
 import SwiftUI
 
 struct Bamboo: View {
-    var width: CGFloat = 40
-    var height: CGFloat = 200
-    
+    var width: CGFloat
+    var height: CGFloat
+
+    init(_ width: CGFloat = 40, _ height: CGFloat = 200) {
+    self.width = width
+    self.height = height
+    }
+
     static let darkGreen = Color(red: 0/255, green: 100/255, blue: 0/255)
     
     var body: some View {
@@ -19,11 +24,12 @@ struct Bamboo: View {
                 )
             )
             .frame(width: width, height: height)
+            
     }
 }
 
 struct Bamboo_Previews: PreviewProvider {
     static var previews: some View {
-        Bamboo()
+        Bamboo(50, 300)
     }
 }
