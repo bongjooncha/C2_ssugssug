@@ -14,9 +14,12 @@ struct SettingView: View {
     
     var body: some View {
         NavigationView {
-            ZStack {
+            ZStack{
                 Spacer()
                 VStack(alignment: .leading) {
+                    Text("내 정보")
+                        .font(.title)
+                        .fontWeight(.bold)
                     // 사용자 프로필 정보
                     ProfileView(username: username ?? "")
                         .padding(.bottom, 40)
@@ -33,7 +36,7 @@ struct SettingView: View {
                     
                     Spacer()
                 }
-                .padding()
+                .padding(.leading, 20)
                 
                 // 로딩 인디케이터
                 if viewModel.isLoading || isLoading {
@@ -44,7 +47,6 @@ struct SettingView: View {
                         .background(Color.black.opacity(0.1))
                 }
             }
-            .navigationTitle("내 정보")
             .navigationBarItems(trailing:
                 Button(action: {
                     showDeleteConfirmation = true

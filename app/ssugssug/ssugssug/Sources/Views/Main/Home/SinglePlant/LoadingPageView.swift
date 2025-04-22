@@ -1,10 +1,11 @@
 import SwiftUI
 
 struct LoadingPageView: View {
-    @Binding var navBarHidden: Bool
     @State private var isAnimating = false
     @State private var animationStates = [false, false, false]
     @State private var timerCount = 0
+    @State private var navigateToTodayGoal = false 
+    @EnvironmentObject var navState: NavigationState
     @Environment(\.presentationMode) var presentationMode
     
     // 참가자 관련 상태 추가
@@ -26,8 +27,10 @@ struct LoadingPageView: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack(alignment: .leading) {
-                // 뒤로가기 버튼
                 Button(action: {
+                    DispatchQueue.main.async {
+                        navState.showTabBar = true
+                    }
                     presentationMode.wrappedValue.dismiss()
                 }) {
                     HStack {
@@ -92,7 +95,7 @@ struct LoadingPageView: View {
                 
                 // 다음 버튼
                 Button(action: {
-                    // 완료 처리
+                    navigateToTodayGoal = true
                 }) {
                     Text("다음")
                         .foregroundColor(.white)
@@ -104,11 +107,20 @@ struct LoadingPageView: View {
                 .disabled(!nextButtonEnabled)
                 .padding(.bottom, 20)
                 .frame(maxWidth: .infinity)
+                .background(
+                    NavigationLink(
+                        destination: TodayGoalView(),
+                        isActive: $navigateToTodayGoal,
+                        label: { EmptyView() }
+                    )
+                )
             }
         }
         .onAppear {
+            DispatchQueue.main.async {
+                navState.showTabBar = false
+            }
             animationStates[0] = true
-            navBarHidden = true
         }
         .navigationBarHidden(true)
         .onReceive(timer) { _ in
@@ -156,5 +168,5 @@ struct LoadingPageView: View {
 }
 
 #Preview {
-    LoadingPageView(navBarHidden: .constant(false))
+    LoadingPageView()
 }

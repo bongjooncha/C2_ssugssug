@@ -10,7 +10,7 @@ struct MemoView: View {
     }
     
     var body: some View {
-        VStack {
+        VStack {           
             Text("\(study.study_name) 메모")
                 .font(.title)
                 .padding()

@@ -7,19 +7,10 @@ struct SinglePlantHeaderView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             HStack {
-                Button(action: {
-                    presentationMode.wrappedValue.dismiss()
-                }) {
-                    Image(systemName: "chevron.left")
-                        .font(.title2)
-                        .foregroundColor(.black)
-                }
-                
-                Spacer()
-                
                 Text(study.study_name)
                     .font(.title)
                     .fontWeight(.bold)
+                    .padding(.leading, 20)
                 
                 Spacer()
             }

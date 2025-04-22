@@ -6,12 +6,11 @@ struct SinglePlantMainView: View {
     @State private var showMemoView = false
     @State private var showStartStudyView = false
     @State private var showLoadingPage = false
-    @Binding var navBarHidden: Bool
+    @EnvironmentObject var navState: NavigationState
     
     var body: some View {
         VStack(spacing: 10) {
             HStack(spacing: 15) {
-                // 메모 보기 버튼
                 NavigationLink(destination: MemoView(study: study)) {
                     ActionButton(
                         title: "메모 보기",
@@ -19,8 +18,7 @@ struct SinglePlantMainView: View {
                         foregroundColor: .green
                     )
                 }
-                
-                // 스터디 시작 버튼 (아직 구현하지 않음 - 주석 처리)
+
                 ActionButton(
                     title: "스터디 시작",
                     backgroundColor: Color.green.opacity(0.2),
@@ -33,23 +31,22 @@ struct SinglePlantMainView: View {
             .padding(.horizontal)
             
             
-            Ground(2, 70, .brown, 200, 25)
+            Ground(2, 60, .brown, 200, 25)
                 .frame(width: 300, height: 50)
-                .padding(.vertical, 220)
+                .padding(.top, 150)
         }
         .padding(.vertical)
-        .onAppear {
-            navBarHidden = false
-        }
-//        .navigationBarHidden(navBarHidden) 
         .background(
             NavigationLink(
-                destination: LoadingPageView(navBarHidden: $navBarHidden),
+                destination: LoadingPageView(),
                 isActive: $showLoadingPage
             ) {
                 EmptyView()
             }
         )
+        .onAppear {
+            navState.showTabBar = true
+        }
     }
 }   
 
@@ -59,6 +56,6 @@ struct SinglePlantMainView: View {
         study_name: "알고리즘 스터디", 
         study_type: 0, 
         meating_num: 4,
-        meating_goal: 10 
-    ), navBarHidden: .constant(false))
+        meating_goal: 10 )
+    )
 }
