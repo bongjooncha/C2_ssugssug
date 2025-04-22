@@ -4,7 +4,7 @@ struct MemoView: View {
     let study: Study
     private let memoStorage = MemoStorage()
     @State private var memos: [Memo] = []
-
+    
     private func loadMemos() {
         self.memos = memoStorage.loadMemos(forStudy: study.study_name)
     }
@@ -68,5 +68,6 @@ struct MemoItemView: View {
         study_type: 0,
         meating_num: 13,
         meating_goal: 20
-    ))
+    )
+    )
 }

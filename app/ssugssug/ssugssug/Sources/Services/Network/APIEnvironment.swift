@@ -9,7 +9,8 @@ enum APIEnvironment {
         switch self {
         case .development:
             // return "http://localhost:8000"
-            return "http://10.141.51.36:8000"
+            return "http://192.168.0.18:8000"
+//            return "http://10.141.51.36:8000"
         case .staging:
             return "http://10.141.51.36:8000"
         case .production:

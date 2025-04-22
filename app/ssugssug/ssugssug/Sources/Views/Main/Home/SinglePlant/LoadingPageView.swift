@@ -1,23 +1,77 @@
 import SwiftUI
 
 struct LoadingPageView: View {
+    @Binding var navBarHidden: Bool
     @State private var isAnimating = false
-    @State private var completedTasks = [true, false, true] // 체크 표시 상태
-    
-    // 세 개 원에 대한 각각의 애니메이션 상태
     @State private var animationStates = [false, false, false]
     @State private var timerCount = 0
+    @Environment(\.presentationMode) var presentationMode
+    
+    // 참가자 관련 상태 추가
+    @State private var participants = [
+        "Test1": false,
+        "Test2": false,
+        "Test3": false,
+        "Test4": false
+    ]
+    
+    // 다음 버튼 활성화 상태
+    @State private var nextButtonEnabled: Bool = false
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var body: some View {
         ZStack {
-            // 배경색
             Color(red: 0.95, green: 0.95, blue: 0.9)
                 .edgesIgnoringSafeArea(.all)
             
-            VStack {
-                Spacer()
+            VStack(alignment: .leading) {
+                // 뒤로가기 버튼
+                Button(action: {
+                    presentationMode.wrappedValue.dismiss()
+                }) {
+                    HStack {
+                        Image(systemName: "chevron.left")
+                        Text("뒤로")
+                    }
+                    .foregroundColor(.green)
+                    .padding(.leading, 16)
+                }
+                .padding(.top, 10)
+                
+                // 참가자 확인 패널 - 좌상단(뒤로가기 아래)에 배치
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("참가자 확인")
+                        .font(.headline)
+                        .padding(.bottom, 4)
+                    
+                    ForEach(participants.sorted(by: { $0.key < $1.key }), id: \.key) { nickname, isChecked in
+                        HStack {
+                            Text(nickname)
+                                .font(.subheadline)
+                            Spacer()
+                            Button(action: {
+                                participants[nickname] = !isChecked
+                                updateNextButtonState()
+                            }) {
+                                Image(systemName: isChecked ? "checkmark.circle.fill" : "circle")
+                                    .foregroundColor(isChecked ? .green : .gray)
+                                    .font(.system(size: 20))
+                            }
+                        }
+                        .padding(.vertical, 4)
+                        .padding(.horizontal, 8)
+                        .cornerRadius(8)
+                    }
+                }
+                .frame(width: 130)
+                .background(Color.white.opacity(0.3))
+                .cornerRadius(12)
+                .padding(.leading, 20)
+                .padding(.top, 40)
+                
+                
+                // 애니메이션 원들 - 화면 중앙에 배치
                 ZStack {
                     ForEach(0..<3) { index in
                         Circle()
@@ -30,9 +84,13 @@ struct LoadingPageView: View {
                         .fill(Color.green)
                         .frame(width: 70, height: 70)
                 }
-                .frame(height: 150)
+                .frame(width: 300, height: 300)
+                .frame(maxWidth: .infinity)
+                .padding(.top, -60)
                 
                 Spacer()
+                
+                // 다음 버튼
                 Button(action: {
                     // 완료 처리
                 }) {
@@ -40,16 +98,19 @@ struct LoadingPageView: View {
                         .foregroundColor(.white)
                         .padding(.horizontal, 30)
                         .padding(.vertical, 8)
-                        .background(Color.green)
+                        .background(nextButtonEnabled ? Color.green : Color.gray)
                         .cornerRadius(20)
                 }
-                .padding(.bottom, 30)
+                .disabled(!nextButtonEnabled)
+                .padding(.bottom, 20)
+                .frame(maxWidth: .infinity)
             }
         }
         .onAppear {
-            // 초기 애니메이션 상태 설정
             animationStates[0] = true
+            navBarHidden = true
         }
+        .navigationBarHidden(true)
         .onReceive(timer) { _ in
             withAnimation(.easeInOut(duration: 0.6)) {
                 // 0.3초마다 타이머 증가
@@ -83,10 +144,17 @@ struct LoadingPageView: View {
             }
         }
     }
+    
+    // 다음 버튼 활성화 상태 업데이트 함수
+    private func updateNextButtonState() {
+        let totalCount = participants.count
+        let checkedCount = participants.values.filter { $0 }.count
+        let percentChecked = Double(checkedCount) / Double(totalCount) * 100.0
+        
+        nextButtonEnabled = percentChecked >= 65.0
+    }
 }
 
-struct LoadingPageView_Previews: PreviewProvider {
-    static var previews: some View {
-        LoadingPageView()
-    }
+#Preview {
+    LoadingPageView(navBarHidden: .constant(false))
 }

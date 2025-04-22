@@ -5,6 +5,7 @@ struct HomeMainView: View {
     @State private var showStudyPicker = false
     @State private var selectedStudy: Study?
     @State private var navigateToSinglePlant = false
+    @Binding var navBarHidden: Bool
     
     var body: some View {
         VStack {
@@ -52,7 +53,7 @@ struct HomeMainView: View {
             NavigationLink(
                 destination: Group {
                     if let study = selectedStudy {
-                        SinglePlantView(study: study)
+                        SinglePlantView(study: study, navBarHidden: $navBarHidden)
                     }
                 },
                 isActive: $navigateToSinglePlant
@@ -76,5 +77,5 @@ struct HomeMainView: View {
 }
 
 #Preview {
-    HomeMainView(studyViewModel: StudyViewModel(username: "Test2"))
+    HomeMainView(studyViewModel: StudyViewModel(username: "Test2"), navBarHidden: .constant(false))
 }

@@ -5,7 +5,8 @@ struct SinglePlantMainView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var showMemoView = false
     @State private var showStartStudyView = false
-    @State private var showLoadingPage = false 
+    @State private var showLoadingPage = false
+    @Binding var navBarHidden: Bool
     
     var body: some View {
         VStack(spacing: 10) {
@@ -37,9 +38,13 @@ struct SinglePlantMainView: View {
                 .padding(.vertical, 220)
         }
         .padding(.vertical)
+        .onAppear {
+            navBarHidden = false
+        }
+//        .navigationBarHidden(navBarHidden) 
         .background(
             NavigationLink(
-                destination: LoadingPageView(),
+                destination: LoadingPageView(navBarHidden: $navBarHidden),
                 isActive: $showLoadingPage
             ) {
                 EmptyView()
@@ -55,5 +60,5 @@ struct SinglePlantMainView: View {
         study_type: 0, 
         meating_num: 4,
         meating_goal: 10 
-    ))
+    ), navBarHidden: .constant(false))
 }
