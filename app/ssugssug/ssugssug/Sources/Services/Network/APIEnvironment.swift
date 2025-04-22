@@ -8,12 +8,12 @@ enum APIEnvironment {
     var baseURL: String {
         switch self {
         case .development:
-//            return "http://localhost:8000"
-              return "http://10.141.51.36:8000"
+            // return "http://localhost:8000"
+            return "http://10.141.51.36:8000"
         case .staging:
-            return "http://staging-server.com"
+            return "http://10.141.51.36:8000"
         case .production:
-            return "http://production-server.com"
+            return "http://localhost:8000"
         }
     }
     

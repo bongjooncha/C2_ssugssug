@@ -3,10 +3,9 @@ import Foundation
 struct Study: Codable, Identifiable {
     let nickname: String
     let study_name: String
-    let study_type: Int32
-//    let study_time: Int32
-    let meating_num: Int
-    let meating_goal: Int
+    let study_type: Int8
+    let meating_num: Int8
+    let meating_goal: Int8
     
     var id: String { study_name }
     
@@ -17,7 +16,7 @@ struct Study: Codable, Identifiable {
         case 1:
             return "문화생활(죽순)"
         case 2:
-            return "경험공유(수박)"
+            return "경험공유(박)"
         default:
             return "기타"
         }

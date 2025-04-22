@@ -81,7 +81,7 @@ struct SettingView: View {
     private func deleteAccount() {
         isLoading = true
         
-        viewModel.deleteAccount { success in
+        authViewModel.deleteAccount { success in
             isLoading = false
             
             if success {

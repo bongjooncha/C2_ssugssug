@@ -56,36 +56,36 @@ struct CreateStudyView: View {
             }
 
             // 스터디 시간
-            VStack(alignment: .leading, spacing: 8) {
-                Text("스터디 시간")
-                    .font(.headline)
+            // VStack(alignment: .leading, spacing: 8) {
+            //     Text("스터디 시간")
+            //         .font(.headline)
                 
-                HStack(spacing: 15) {
-                    HStack {
-                        Picker("시", selection: $selectedHour) {
-                            ForEach(hours, id: \.self) { hour in
-                                Text("\(hour)시")
-                            }
-                        }
-                        .pickerStyle(MenuPickerStyle())
-                        .frame(width: 80)
-                        .background(Color(.systemGray6))
-                        .cornerRadius(5)
-                    }
+            //     HStack(spacing: 15) {
+            //         HStack {
+            //             Picker("시", selection: $selectedHour) {
+            //                 ForEach(hours, id: \.self) { hour in
+            //                     Text("\(hour)시")
+            //                 }
+            //             }
+            //             .pickerStyle(MenuPickerStyle())
+            //             .frame(width: 80)
+            //             .background(Color(.systemGray6))
+            //             .cornerRadius(5)
+            //         }
                     
-                    HStack {
-                        Picker("분", selection: $selectedMinute) {
-                            ForEach(minutes, id: \.self) { minute in
-                                Text("\(minute)분")
-                            }
-                        }
-                        .pickerStyle(MenuPickerStyle())
-                        .frame(width: 80)
-                        .background(Color(.systemGray6))
-                        .cornerRadius(5)
-                    }
-                }
-            }
+            //         HStack {
+            //             Picker("분", selection: $selectedMinute) {
+            //                 ForEach(minutes, id: \.self) { minute in
+            //                     Text("\(minute)분")
+            //                 }
+            //             }
+            //             .pickerStyle(MenuPickerStyle())
+            //             .frame(width: 80)
+            //             .background(Color(.systemGray6))
+            //             .cornerRadius(5)
+            //         }
+            //     }
+            // }
 
             // 목표 만남 횟수
             VStack(alignment: .leading, spacing: 8) {
@@ -101,6 +101,7 @@ struct CreateStudyView: View {
                 .frame(width: 80)
                 .background(Color(.systemGray6))
                 .cornerRadius(5)
+                .accentColor(.green)
             }
             
             Spacer()

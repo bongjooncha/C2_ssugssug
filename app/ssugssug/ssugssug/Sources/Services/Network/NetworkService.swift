@@ -17,8 +17,7 @@ enum NetworkError: Error {
 }
 
 final class NetworkService {
-      private let baseURL = "http://10.141.51.36:8000"
-//   private let baseURL = "http://localhost:8000"
+    private let baseURL = APIEnvironment.current.baseURL
     
     //TODO: url configuration
     func request<T: Decodable, U: Encodable>(

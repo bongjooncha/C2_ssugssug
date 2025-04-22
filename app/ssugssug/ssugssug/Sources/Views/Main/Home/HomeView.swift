@@ -1,35 +1,36 @@
 import SwiftUI
 
 struct HomeView: View {
-    @ObservedObject var AuthViewModel: AuthViewModel
-    @StateObject private var studyViewModel = StudyViewModel()
+    @ObservedObject var authViewModel: AuthViewModel
+    @ObservedObject var studyViewModel: StudyViewModel
     @State private var showCreateStudy = false
 
+    private var username: String? {
+        return authViewModel.currentUser?.nickname
+    }
     
+    init(authViewModel: AuthViewModel, studyViewModel: StudyViewModel = StudyViewModel()) {
+        self.authViewModel = authViewModel
+        self.studyViewModel = studyViewModel
+    }
+
     var body: some View {
         NavigationView {
-            VStack(spacing: 30) {
-                // 환영 메시지와 프로필 아이콘
-                UserHeaderView(nickname: AuthViewModel.currentUser?.nickname)
-                Spacer()
+            VStack(spacing: 10) {
+                UserHeaderView(showCreateStudy: $showCreateStudy)
                 HomeMainView(studyViewModel: studyViewModel)
+                Spacer()
             }
             .padding()
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(trailing: 
-                Button(action: {
-                    showCreateStudy = true
-                }) {
-                    HStack {
-                        Image(systemName: "plus")
-                        Text("스터디 추가하기")
-                    }
-                    .foregroundColor(.green)
+            .onAppear {
+                if studyViewModel.username.isEmpty {
+                    studyViewModel.fetchUserStudies(username: username ?? "")
                 }
-            )
+            }
             .sheet(isPresented: $showCreateStudy) {
                 NavigationView {
-                    CreateStudyView(user: AuthViewModel.currentUser)
+                    CreateStudyView(user: authViewModel.currentUser)
                         .navigationBarItems(leading: 
                             Button(action: {
                                 showCreateStudy = false
@@ -44,5 +45,8 @@ struct HomeView: View {
 } 
 
 #Preview {
-    HomeView(AuthViewModel: AuthViewModel())
+    HomeView(
+        authViewModel: AuthViewModel(),
+        studyViewModel: StudyViewModel(username: "Test2")
+    )
 }

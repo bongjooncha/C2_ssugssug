@@ -62,6 +62,8 @@ struct Parallelogram: Shape {
 
 
 #Preview {
-    Ground(1, 70, .brown, 100)
+//    Ground(1, 70, .brown, 100)
+//        .frame(width: 300, height: 50)
+    Ground(1, 70, .brown, 200, 25)
         .frame(width: 300, height: 50)
 }

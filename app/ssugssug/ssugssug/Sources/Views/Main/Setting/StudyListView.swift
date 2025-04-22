@@ -54,5 +54,5 @@ struct StudyListView: View {
 }
 
 #Preview {
-    StudyListView(viewModel: StudyViewModel())
+    StudyListView(viewModel: StudyViewModel(username: "Test2"))
 } 

@@ -22,18 +22,18 @@ struct MainView: View {
 struct TabView: View {
     let selectedTab: Int
     @ObservedObject var viewModel: AuthViewModel
-    
+ 
     var body: some View {
         VStack {
             switch selectedTab {
             case 0:
-                HomeView(AuthViewModel: viewModel)
+                HomeView(authViewModel: viewModel)
             case 1:
                 GroupView()
             case 2:
                 SettingView(authViewModel: viewModel)
             default:
-                HomeView(AuthViewModel: viewModel)
+                HomeView(authViewModel: viewModel)
             }
             
             Spacer(minLength: 0)

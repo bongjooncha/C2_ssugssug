@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import Alamofire
 
 final class AuthViewModel: ObservableObject {
     @Published var currentUser: User?
@@ -71,6 +72,32 @@ final class AuthViewModel: ObservableObject {
     func logout() {
         self.currentUser = nil
         self.isAuthenticated = false
+    }
+
+    func deleteAccount(completion: @escaping (Bool) -> Void) {
+        guard let nickname = currentUser?.nickname else {
+            completion(false)
+            return
+        }
+        
+        isLoading = true
+        
+        let endpoint = APIEnvironment.current.baseURL + "/auth/users/\(nickname)"
+        
+        AF.request(endpoint, method: .delete)
+            .validate()
+            .response { [weak self] response in
+                self?.isLoading = false
+                
+                switch response.result {
+                case .success:
+                    self?.currentUser = nil
+                    self?.isAuthenticated = false
+                    completion(true)
+                case .failure:
+                    completion(false)
+                }
+            }
     }
     
     private func parseErrorMessage(_ jsonString: String) -> String? {

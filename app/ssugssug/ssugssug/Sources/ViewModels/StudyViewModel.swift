@@ -17,10 +17,6 @@ class StudyViewModel: ObservableObject {
         fetchUserStudies()
     }
     
-    func setUsername(_ username: String) {
-        self.username = username
-    }
-    
     func fetchUserStudies() {
         guard !username.isEmpty else {
             errorMessage = "사용자 이름이 설정되지 않았습니다"
@@ -29,9 +25,9 @@ class StudyViewModel: ObservableObject {
         
         isLoading = true
         errorMessage = nil
-        let url = "http://10.141.51.36:8000"
+        let baseURL = APIEnvironment.current.baseURL
         
-        let endpoint = url+"/groups/studies/user/\(username)"
+        let endpoint = baseURL+"/groups/studies/user/\(username)"
         
         AF.request(endpoint, method: .get)
             .validate()
@@ -43,7 +39,9 @@ class StudyViewModel: ObservableObject {
                 switch response.result {
                 case .success(let studies):
                     self.studies = studies
-                    
+                
+
+                // 오류 처리
                 case .failure(let error):
                     if let data = response.data, 
                        let errorString = String(data: data, encoding: .utf8) {
@@ -67,26 +65,6 @@ class StudyViewModel: ObservableObject {
     func fetchUserStudies(username: String) {
         self.username = username
         fetchUserStudies()
-    }
-    
-    func deleteAccount(completion: @escaping (Bool) -> Void) {
-        guard !username.isEmpty else {
-            completion(false)
-            return
-        }
-        
-        let endpoint = "http://localhost:8000/auth/delete-account"
-        
-        AF.request(endpoint, method: .delete)
-            .validate()
-            .response { response in
-                switch response.result {
-                case .success:
-                    completion(true)
-                case .failure:
-                    completion(false)
-                }
-            }
     }
 }
 
