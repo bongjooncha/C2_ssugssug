@@ -3,6 +3,7 @@ import SwiftUI
 struct HomeView: View {
     @ObservedObject var authViewModel: AuthViewModel
     @ObservedObject var studyViewModel: StudyViewModel
+    @EnvironmentObject var navState: NavigationState
     @State private var showCreateStudy = false
 
     private var username: String? {
@@ -15,10 +16,11 @@ struct HomeView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(spacing: 10) {
                 UserHeaderView(showCreateStudy: $showCreateStudy)
                 HomeMainView(studyViewModel: studyViewModel)
+                    .environmentObject(navState)
                 Spacer()
             }
             .padding()

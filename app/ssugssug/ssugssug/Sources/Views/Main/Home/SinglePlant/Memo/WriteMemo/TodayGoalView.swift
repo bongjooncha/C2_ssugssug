@@ -4,6 +4,10 @@ struct TodayGoalView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var todayGoal: String = ""
     @EnvironmentObject var navState: NavigationState
+    @EnvironmentObject var saveStudyVM: SaveStudyViewModel
+    @State private var navigateBackToMain = false
+    
+    var study: Study
     
     var body: some View {
         ZStack {
@@ -48,8 +52,10 @@ struct TodayGoalView: View {
                 HStack {
                     Spacer()
                     Button(action: {
-                        // 다음 화면으로 이동하는 로직
-                        print("목표 저장: \(todayGoal)")
+                        // 목표 저장하고 메인 화면으로 돌아가기
+                        saveStudyVM.saveGoal(todayGoal)
+                        saveStudyVM.studyState = .inProgress
+                        navigateBackToMain = true
                     }) {
                         Text("다음")
                             .foregroundColor(.white)
@@ -63,11 +69,19 @@ struct TodayGoalView: View {
                 }
             }
         }
-        .navigationBarHidden(true)     
+        .navigationBarHidden(true)
+        .background(
+            NavigationLink(
+                destination: SinglePlantView(study: study).environmentObject(navState),
+                isActive: $navigateBackToMain,
+                label: { EmptyView() }
+            )
+        )
     }
 }
 
-#Preview {
-    TodayGoalView()
-        .environmentObject(NavigationState())
-}
+//#Preview {
+//    TodayGoalView(study: Study(nickname: "Test User", study_name: "Test Study"))
+//        .environmentObject(NavigationState())
+//        .environmentObject(SaveStudyViewModel())
+//}

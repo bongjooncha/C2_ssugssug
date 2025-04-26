@@ -34,7 +34,7 @@ struct StudyListView: View {
                                     
                                     Spacer()
                                     
-                                    Text("진행: \(study.meating_goal)/\(study.meating_num)")
+                                    Text("진행: \(study.meating_num)/\(study.meating_goal)")
                                         .font(.caption)
                                         .foregroundColor(.gray)
                                 }

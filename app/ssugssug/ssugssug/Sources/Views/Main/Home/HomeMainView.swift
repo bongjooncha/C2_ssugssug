@@ -2,6 +2,7 @@ import SwiftUI
 
 struct HomeMainView: View {
     @ObservedObject var studyViewModel: StudyViewModel
+    @EnvironmentObject var navState: NavigationState
     @State private var showStudyPicker = false
     @State private var selectedStudy: Study?
     @State private var navigateToSinglePlant = false
@@ -9,17 +10,17 @@ struct HomeMainView: View {
     var body: some View {
         VStack {
             if studyViewModel.studies.isEmpty {
-                Ground(nil, 70, .brown, 100)
-                    .frame(width: 300, height: 50)
-                    .padding(.vertical, 220)
+                Ground(nil, 25, .brown, 100)
+                    .frame(width: 320, height: 200)
+                    .padding(.vertical, 100)
             
                 Text("식물이 없습니다. 스터디를 추가해보세요.")
                     .foregroundColor(.gray)
                     .padding()
             } else {
-                Ground(1, 70, .brown, 100)
-                    .frame(width: 300, height: 50)
-                    .padding(.vertical, 220)
+                Ground(1, 25, .brown, 100)
+                    .frame(width: 350, height: 200)
+                    .padding(.vertical, 100)
 
                 Button(action: {
                     showStudyPicker = true
@@ -53,6 +54,7 @@ struct HomeMainView: View {
                 destination: Group {
                     if let study = selectedStudy {
                         SinglePlantView(study: study)
+                            .environmentObject(navState)
                     }
                 },
                 isActive: $navigateToSinglePlant

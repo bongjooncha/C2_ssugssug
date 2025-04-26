@@ -17,7 +17,6 @@ struct MainView: View {
                 .ignoresSafeArea(.keyboard)
             }
         }
-        .environmentObject(navState)
     }
 }
 
@@ -30,6 +29,7 @@ struct TabView: View {
             switch navState.selectedTab {
             case 0:
                 HomeView(authViewModel: viewModel)
+                    .environmentObject(navState)
             case 1:
                 GroupView()
             case 2:
