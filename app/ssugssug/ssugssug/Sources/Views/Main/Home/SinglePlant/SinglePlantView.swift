@@ -3,6 +3,7 @@ import SwiftUI
 struct SinglePlantView: View {
     let study: Study
     @Environment(\.presentationMode) var presentationMode
+    
     @State private var showMemoView = false
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -27,23 +28,6 @@ struct SinglePlantView: View {
     }
 }
 
-// 액션 버튼 컴포넌트
-struct ActionButton: View {
-    let title: String
-    let backgroundColor: Color
-    let foregroundColor: Color
-    
-    var body: some View {
-        Text(title)
-            .font(.headline)
-            .foregroundColor(foregroundColor)
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 12)
-            .background(backgroundColor)
-            .cornerRadius(10)
-    }
-}
-
 #Preview {
     let previewStudy = Study(
         nickname: "사용자",
@@ -53,8 +37,5 @@ struct ActionButton: View {
         meating_goal: 10
     )
 
-    let navigationState = NavigationState()
-    
     SinglePlantView(study: previewStudy)
-        .environmentObject(navigationState)
 }

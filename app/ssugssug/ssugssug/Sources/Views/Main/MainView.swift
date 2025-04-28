@@ -2,48 +2,34 @@ import SwiftUI
 
 struct MainView: View {
     @ObservedObject var viewModel: AuthViewModel
-    @StateObject private var navState = NavigationState()
+    @State var selectedBar = 0
     
     var body: some View {
-        ZStack {
-            TabView(viewModel: viewModel)
-                .environmentObject(navState) 
-            
-            if navState.showTabBar {
-                VStack {
-                    Spacer()
-                    BottomNavBar(selectedTab: $navState.selectedTab)
+        TabView(selection: $selectedBar) {
+            HomeView(authViewModel: viewModel)
+                .tabItem {
+                    Image(systemName: "leaf")
+                    Text("내 화단")
                 }
-                .ignoresSafeArea(.keyboard)
-            }
+                .tag(0)
+            GroupView()
+                .tabItem {
+                    Image(systemName: "tree")
+                    Text("전체 화단")
+                }
+                .tag(1)
+            SettingView(authViewModel: viewModel)
+                .tabItem {
+                    Image(systemName: "gearshape")
+                    Text("설정")
+                }
+                .tag(2)
         }
-        .environmentObject(navState)
+        .accentColor(.green)
     }
 }
 
-struct TabView: View {
-    @EnvironmentObject var navState: NavigationState
-    @ObservedObject var viewModel: AuthViewModel
- 
-    var body: some View {
-        VStack {
-            switch navState.selectedTab {
-            case 0:
-                HomeView(authViewModel: viewModel)
-            case 1:
-                GroupView()
-            case 2:
-                SettingView(authViewModel: viewModel)
-            default:
-                HomeView(authViewModel: viewModel)
-            }
-            
-            Spacer(minLength: 0)
-        }
-    }
-}
 
 #Preview {
     MainView(viewModel: AuthViewModel())
-        .environmentObject(NavigationState())
 }

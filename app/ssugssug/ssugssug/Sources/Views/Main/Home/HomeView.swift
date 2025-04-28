@@ -15,7 +15,7 @@ struct HomeView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(spacing: 10) {
                 UserHeaderView(showCreateStudy: $showCreateStudy)
                 HomeMainView(studyViewModel: studyViewModel)

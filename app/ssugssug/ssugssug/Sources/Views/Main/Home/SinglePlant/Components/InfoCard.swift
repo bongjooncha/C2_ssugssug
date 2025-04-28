@@ -2,21 +2,30 @@ import SwiftUI
 
 struct InfoCard: View {
     let title: String
-    let value: String
+    let percent: String
+    let amount: String
     let backgroundColor: Color
     let borderColor: Color
     
     var body: some View {
-        VStack(spacing: 8) {
+        HStack(alignment: .center) {
             Text(title)
                 .font(.footnote)
                 .foregroundColor(.gray)
+                .padding(.trailing, 10)
             
-            Text(value)
-                .font(.title2)
-                .fontWeight(.bold)
+            HStack(alignment: .lastTextBaseline) {
+                Text(percent)
+                    .font(.title3)
+                    .fontWeight(.bold)
+
+                Text(amount)
+                    .font(.caption2)
+                    .foregroundColor(.gray)
+            }
         }
         .frame(maxWidth: .infinity)
+        .frame(height: 16)
         .padding(.vertical, 15)
         .background(backgroundColor)
         .cornerRadius(10)
@@ -29,5 +38,5 @@ struct InfoCard: View {
 
 
 #Preview {
-    InfoCard(title: "만남 횟수", value: "4/10", backgroundColor: .white, borderColor: Color.gray.opacity(0.2))
+    InfoCard(title: "만남 횟수", percent: "25%", amount: "4/10", backgroundColor: .white, borderColor: Color.gray.opacity(0.2))
 }

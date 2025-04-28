@@ -33,7 +33,6 @@ class MemoStorage {
             let memoResponse = try JSONDecoder().decode(MemoResponse.self, from: data)
             return memoResponse.memos
         } catch {
-            print("메모 로딩 오류: \(error)")
             return []
         }
     }
@@ -67,7 +66,6 @@ class MemoStorage {
             try data.write(to: memoFileURL)
             return true
         } catch {
-            print("메모 저장 오류: \(error)")
             return false
         }
     }

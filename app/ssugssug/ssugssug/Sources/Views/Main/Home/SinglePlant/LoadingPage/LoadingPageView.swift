@@ -4,9 +4,10 @@ struct LoadingPageView: View {
     @State private var isAnimating = false
     @State private var animationStates = [false, false, false]
     @State private var timerCount = 0
-    @State private var navigateToTodayGoal = false 
-    @EnvironmentObject var navState: NavigationState
-    @Environment(\.presentationMode) var presentationMode
+    @State private var navigateToTodayGoal = false
+    @ObservedObject var saveStuadyVM: SaveStudyViewModel
+    @Environment(\.dismiss) var dismiss
+    var study: Study
     
     // 참가자 관련 상태 추가
     @State private var participants = [
@@ -28,10 +29,7 @@ struct LoadingPageView: View {
             
             VStack(alignment: .leading) {
                 Button(action: {
-                    DispatchQueue.main.async {
-                        navState.showTabBar = true
-                    }
-                    presentationMode.wrappedValue.dismiss()
+                    dismiss()
                 }) {
                     HStack {
                         Image(systemName: "chevron.left")
@@ -42,33 +40,44 @@ struct LoadingPageView: View {
                 }
                 .padding(.top, 10)
                 
+                /*
+                 padding
+                 
+                 safeAreaPadding
+                 
+                 contentsMargins
+                 */
+                
                 // 참가자 확인 패널 - 좌상단(뒤로가기 아래)에 배치
                 VStack(alignment: .leading, spacing: 12) {
                     Text("참가자 확인")
                         .font(.headline)
-                        .padding(.bottom, 4)
-                    
-                    ForEach(participants.sorted(by: { $0.key < $1.key }), id: \.key) { nickname, isChecked in
-                        HStack {
-                            Text(nickname)
-                                .font(.subheadline)
-                            Spacer()
-                            Button(action: {
-                                participants[nickname] = !isChecked
-                                updateNextButtonState()
-                            }) {
-                                Image(systemName: isChecked ? "checkmark.circle.fill" : "circle")
-                                    .foregroundColor(isChecked ? .green : .gray)
-                                    .font(.system(size: 20))
-                            }
-                        }
-                        .padding(.vertical, 4)
+                        .padding(.vertical, 8)
                         .padding(.horizontal, 8)
-                        .cornerRadius(8)
+                    VStack{
+                        ForEach(participants.sorted(by: { $0.key < $1.key }), id: \.key) { nickname, isChecked in
+                            HStack {
+                                Text(nickname)
+                                    .font(.subheadline)
+                                Spacer()
+                                Button(action: {
+                                    participants[nickname] = !isChecked
+                                    updateNextButtonState()
+                                }) {
+                                    Image(systemName: isChecked ? "checkmark.circle.fill" : "circle")
+                                        .foregroundColor(isChecked ? .green : .gray)
+                                        .font(.system(size: 20))
+                                }
+                            }
+                            .padding(.horizontal, 12)
+                            .cornerRadius(8)
+                        }
+                        .padding(.bottom, 4)
                     }
+                    .padding(.bottom, 4)
                 }
                 .frame(width: 130)
-                .background(Color.white.opacity(0.3))
+                .background(Color.white.opacity(0.5))
                 .cornerRadius(12)
                 .padding(.leading, 20)
                 .padding(.top, 40)
@@ -109,17 +118,15 @@ struct LoadingPageView: View {
                 .frame(maxWidth: .infinity)
                 .background(
                     NavigationLink(
-                        destination: TodayGoalView(),
+                        destination: TodayGoalView(study: study)
+                            .environmentObject(saveStuadyVM),
                         isActive: $navigateToTodayGoal,
                         label: { EmptyView() }
                     )
                 )
             }
         }
-        .onAppear {
-            DispatchQueue.main.async {
-                navState.showTabBar = false
-            }
+        .task {
             animationStates[0] = true
         }
         .navigationBarHidden(true)
@@ -167,6 +174,11 @@ struct LoadingPageView: View {
     }
 }
 
-#Preview {
-    LoadingPageView()
-}
+//#Preview {
+//    let navigationState = NavigationState()
+//    
+//    LoadingPageView()
+//        .environmentObject(navigationState)
+//}
+
+
