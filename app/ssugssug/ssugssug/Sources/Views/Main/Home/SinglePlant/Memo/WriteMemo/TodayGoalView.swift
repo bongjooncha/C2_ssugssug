@@ -3,7 +3,6 @@ import SwiftUI
 struct TodayGoalView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var todayGoal: String = ""
-    @EnvironmentObject var navState: NavigationState
     @EnvironmentObject var saveStudyVM: SaveStudyViewModel
     @State private var navigateBackToMain = false
     
@@ -72,7 +71,7 @@ struct TodayGoalView: View {
         .navigationBarHidden(true)
         .background(
             NavigationLink(
-                destination: SinglePlantView(study: study).environmentObject(navState),
+                destination: SinglePlantView(study: study),
                 isActive: $navigateBackToMain,
                 label: { EmptyView() }
             )

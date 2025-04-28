@@ -7,7 +7,6 @@ struct SinglePlantMainView: View {
     @State private var showStartStudyView = false
     @State private var showLoadingPage = false
     @State private var showAfterTodayView = false
-    @EnvironmentObject var navState: NavigationState
     @StateObject private var saveStudyVM = SaveStudyViewModel()
     
     var body: some View {
@@ -45,7 +44,6 @@ struct SinglePlantMainView: View {
             .padding(.horizontal)
             .navigationDestination(isPresented: $showLoadingPage, destination: {
                 LoadingPageView(saveStuadyVM: saveStudyVM, study: study)
-                    .environmentObject(navState)
             })
         }
         .padding(.vertical)
@@ -63,9 +61,6 @@ struct SinglePlantMainView: View {
                 }
             }
         )
-        .task {
-            navState.showTabBar = true
-        }
         .environmentObject(saveStudyVM)
     }
 }
@@ -75,5 +70,4 @@ struct SinglePlantMainView: View {
     SinglePlantMainView(
         study: Study(nickname: "Test", study_name: "Test Study", study_type: 0, meating_num: 0, meating_goal: 10)
     )
-    .environmentObject(NavigationState())
 }   

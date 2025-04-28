@@ -37,8 +37,5 @@ struct SinglePlantView: View {
         meating_goal: 10
     )
 
-    let navigationState = NavigationState()
-    
     SinglePlantView(study: previewStudy)
-        .environmentObject(navigationState)
 }

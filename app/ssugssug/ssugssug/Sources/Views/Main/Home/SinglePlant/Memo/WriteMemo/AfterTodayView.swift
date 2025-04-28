@@ -2,7 +2,6 @@ import SwiftUI
 
 struct AfterTodayView: View {
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var navState: NavigationState
     @EnvironmentObject var saveStudyVM: SaveStudyViewModel
     @State private var impression: String = ""
     @State private var navigateBack = false
@@ -90,12 +89,9 @@ struct AfterTodayView: View {
             }
         }
         .navigationBarHidden(true)
-        .onAppear {
-            navState.showTabBar = false
-        }
         .background(
             NavigationLink(
-                destination: SinglePlantView(study: study).environmentObject(navState),
+                destination: SinglePlantView(study: study),
                 isActive: $navigateBack,
                 label: { EmptyView() }
             )
@@ -108,6 +104,5 @@ struct AfterTodayView: View {
         study: Study(nickname: "Test", study_name: "Test Study", study_type: 0, meating_num: 0, meating_goal: 10),
         todayGoal: "테스트 목표"
     )
-    .environmentObject(NavigationState())
     .environmentObject(SaveStudyViewModel())
 }

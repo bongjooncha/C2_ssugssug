@@ -6,7 +6,6 @@ struct LoadingPageView: View {
     @State private var timerCount = 0
     @State private var navigateToTodayGoal = false
     @ObservedObject var saveStuadyVM: SaveStudyViewModel
-    @EnvironmentObject var navState: NavigationState
     @Environment(\.dismiss) var dismiss
     var study: Study
     
@@ -120,7 +119,6 @@ struct LoadingPageView: View {
                 .background(
                     NavigationLink(
                         destination: TodayGoalView(study: study)
-                            .environmentObject(navState)
                             .environmentObject(saveStuadyVM),
                         isActive: $navigateToTodayGoal,
                         label: { EmptyView() }
@@ -129,9 +127,6 @@ struct LoadingPageView: View {
             }
         }
         .task {
-            DispatchQueue.main.async {
-                navState.showTabBar = false
-            }
             animationStates[0] = true
         }
         .navigationBarHidden(true)
