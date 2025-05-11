@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct CreateStudyView: View {
-    var user: User?
     
     @State private var studyName: String = ""
     @State private var studyType: Int = 0
